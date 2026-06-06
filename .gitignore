@@ -1,0 +1,23 @@
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore API keys and environment variables
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints (just in case!)
+.ipynb_checkpoints/
+
+# Ignore Mac/Windows system files
+.DS_Store
+Thumbs.db
+
+serviceAccountKey.json
+
+.env
