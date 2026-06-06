@@ -204,7 +204,7 @@ const toggleVoiceInput = () => {
       let finalMessageBody = userQuery;
       if (documentContext) finalMessageBody = `Document Context:\n${documentContext}\n\nUser Question: ${userQuery || "Summarize this document."}`;
       apiHistory.push({ role: "user", parts: [{ text: finalMessageBody }] });
-
+//WRITE API KEY IN .ENV FILE 
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`,
