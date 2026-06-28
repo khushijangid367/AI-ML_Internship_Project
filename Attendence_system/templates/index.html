@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #212121; color: #ececf1; height: 100vh; display: flex; flex-direction: column; }
+        
+        /* HEADER */
+        header { background-color: #171717; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        header h1 { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; }
+
+        /* MAIN LAYOUT */
+        .dashboard { display: flex; flex: 1; padding: 40px; gap: 40px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        
+        /* VIDEO FEED MODULE */
+        .camera-module { flex: 2; display: flex; flex-direction: column; gap: 15px; }
+        .camera-module h2 { font-weight: 600; font-size: 1.2rem; }
+        .video-container { 
+            width: 100%; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            border: 2px solid #2f2f2f;
+            background-color: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .video-container img { width: 100%; display: block; }
+
+        /* ATTENDANCE LOG MODULE */
+        .log-module { flex: 1; background-color: #171717; border-radius: 16px; padding: 25px; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.05);}
+        .log-module h2 { font-weight: 600; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #2f2f2f; padding-bottom: 10px;}
+        
+        .student-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2f2f2f; font-weight: 500;}
+        .student-row:last-child { border-bottom: none; }
+        .status { color: #10a37f; font-weight: 800; }
+        
+        /* MANUAL OVERRIDE BUTTON */
+        .action-btn { 
+            background-color: white; color: black; border: none; padding: 14px; 
+            border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: auto; transition: 0.2s;
+        }
+        .action-btn:hover { background-color: #d1d5db; transform: translateY(-2px);}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Smart Attendance System</h1>
+    </header>
+
+    <div class="dashboard">
+        <div class="camera-module">
+            <h2>Live Feed</h2>
+            <div class="video-container">
+                <img src="{{ url_for('video_feed') }}" alt="Camera Stream">
+            </div>
+        </div>
+
+        <div class="log-module">
+            <h2>Today's Log</h2>
+            <div id="attendance-list">
+                <div class="student-row">
+                    <span>Waiting for camera...</span>
+                </div>
+            </div>
+            <button class="action-btn" onclick="fetchAttendance()">↻ Refresh Log</button>
+        </div>
+    </div>
+
+    <script>
+        // Fetches the latest scanned students from the backend
+        async function fetchAttendance() {
+            try {
+                const response = await fetch('/get_recent_attendance');
+                const data = await response.json();
+                
+                const list = document.getElementById('attendance-list');
+                list.innerHTML = ''; 
+                
+                data.forEach(student => {
+                    list.innerHTML += `
+                        <div class="student-row">
+                            <span>${student.name} <br><small style="color: #8e8ea0;">${student.time}</small></span>
+                            <span class="status">${student.status}</span>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Failed to fetch log", error);
+            }
+        }
+
+        // Auto-refresh the list every 5 seconds
+        setInterval(fetchAttendance, 5000);
+        fetchAttendance();
+    </script>
+</body>
+</html>
