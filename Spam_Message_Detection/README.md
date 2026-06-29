@@ -1,4 +1,4 @@
-# 📨 Spam vs. Non-Spam Text Classifier
+# 📨 Spam vs. Non-Spam Mail Classifier
 
 ## 📌 Project Overview
 This project is a Natural Language Processing (NLP) machine learning application that automatically classifies incoming text messages or emails as either **Spam** (unwanted/promotional) or **Ham** (legitimate/safe). 
