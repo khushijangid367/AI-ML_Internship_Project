@@ -14,7 +14,7 @@ An advanced, automated attendance tracking pipeline that utilizes Computer Visio
 * **Computer Vision:** OpenCV (`cv2`)
 * **AI / Deep Learning:** DeepFace
 * **Database & Cloud:** Firebase Firestore (NoSQL), Firebase Admin SDK
-* **Data Handling:** NumPy, Flask
+* **Data Handling:** NumPy
 
 ## 📁 Project Structure
 * `app.py`: The main web application/dashboard entry point for serving the attendance interface.
